@@ -6,7 +6,7 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:29:05 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/14 09:49:24 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/14 11:59:54 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,14 @@
 
 char	*get_next_line(int fd)
 {
-	
+	char	*final;
+	static char	*stash;
 }
+
+/*
+#include <stdio.h>
+
+int	main()
+{
+}
+*/

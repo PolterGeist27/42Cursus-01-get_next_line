@@ -6,7 +6,18 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:29:01 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/11 12:29:02 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/14 11:20:41 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
