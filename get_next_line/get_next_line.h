@@ -6,7 +6,7 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:29:09 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/14 11:20:33 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/15 10:09:05 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 100
+# endif
 
 //  get_next_line.c
 char	*get_next_line(int fd);

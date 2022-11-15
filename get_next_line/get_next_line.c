@@ -6,30 +6,155 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:29:05 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/14 11:59:54 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/15 14:01:58 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-/*
-	-Create a function that reads the next line of a file;
-	-You can use malloc(), read() and free();
-	-Repeated calls of the function should let you read
-	the text file pointed to by fd *One line at a time*;
-	-If there is nothing else to read or if an error occurred,
-	it should return NULL;
-*/
+
+// function that reads the file, 
+// stores the str in the buffer and joins it to the stash
+
+int	read_buffer(int	fd, char **stash)
+{
+	char	buffer[BUFFER_SIZE + 1];
+	char	*tmp;
+	int		bytes;
+
+	bytes = read(fd, buffer, BUFFER_SIZE);
+	buffer[bytes] = '\0';
+	tmp = ft_strjoin(*stash, buffer);
+	*stash = tmp;
+	return (bytes);
+}
+
+// function(s) that gets the str to return and removes it from the stash
+
+int	get_size(char *stash)
+{
+	char	*nl;
+	size_t	index;
+	
+	nl = ft_strchr(stash, '\n');
+	index = ft_strlen(stash) - ft_strlen(nl) + 1;
+	return (index);
+}
+
+void	get_result(char **stash, char **result)
+{
+	char	*nl;
+	size_t	i;
+
+	nl = ft_strchr(*stash, '\n');
+	i = 0;
+	while ((*stash + i) != (nl + 1))
+	{
+		(*result)[i] = *(*stash + i);
+		i++;
+	}
+	(*result)[i] = '\0';
+	free(*stash);
+	*stash = nl + 1;
+}
+
+// get_next_line
 
 char	*get_next_line(int fd)
 {
-	char	*final;
-	static char	*stash;
+	static char	*stash = NULL;
+	char		*result = NULL;
+	
+	while (!ft_strchr(stash, '\n') && read_buffer(fd, &stash) > 0);
+	if (ft_strlen(stash) == 0)
+		return (NULL);
+	result = (char *)malloc(get_size(stash) * sizeof(char));
+	if (!result)
+		return (NULL);
+	get_result(&stash, &result);
+	if (*stash == 0)
+	{
+		free(stash);
+		stash = NULL;
+	}
+	return (result);
 }
 
 /*
 #include <stdio.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
-int	main()
+size_t	ft_strlen(const char *str)
 {
+	size_t	i;
+
+	if (str == NULL)
+		return (0);
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	if (s == NULL)
+		return (NULL);
+	while (*s)
+	{
+		if (*s == c)
+			return ((char *)s);
+		s++;
+	}
+	if (c == '\0')
+		return ((char *)s);
+	return (0);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*str;
+	size_t	len;
+	size_t	i;
+
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	str = (char *)malloc(len * sizeof(char));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s1 && *s1)
+	{
+		str[i++] = *s1;
+		s1++;
+	}
+	while (s2 && *s2)
+	{
+		str[i++] = *s2;
+		s2++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+int	main(void)
+{
+	char	*str;
+	char	*str2;
+	char	*file = "test.txt";
+	char	*file2 = "test2.txt";
+	int	fd;
+	int fd2;
+	
+	fd = open(file, 'r');
+	fd2 = open(file2, 'r');
+	str = get_next_line(fd);
+	printf("result:	%s\n", str);
+	//str = get_next_line(fd2);
+	//printf("result:	%s\n", str);
+	str = get_next_line(fd);
+	printf("result:	%s\n", str);
+	//read(fd, str, 30);
+	//printf("result: %s\n", str);
 }
 */

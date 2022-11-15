@@ -6,7 +6,7 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:29:01 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/14 11:20:41 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/15 11:41:49 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *str)
 {
 	size_t	i;
 
+	if (str == NULL)
+		return (0);
 	i = 0;
 	while (str[i] != '\0')
 		i++;
@@ -24,17 +26,16 @@ size_t	ft_strlen(const char *str)
 
 char	*ft_strchr(const char *s, int c)
 {
-	const char	*ptr;
-
-	ptr = &s[0];
-	while (*ptr != '\0')
+	if (s == NULL)
+		return (NULL);
+	while (*s)
 	{
-		if (*ptr == c)
-			return ((char *)ptr);
-		ptr++;
+		if (*s == c)
+			return ((char *)s);
+		s++;
 	}
 	if (c == '\0')
-		return ((char *)ptr);
+		return ((char *)s);
 	return (0);
 }
 
