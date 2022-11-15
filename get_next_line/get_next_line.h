@@ -16,7 +16,12 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+//  get_next_line.c
 char	*get_next_line(int fd);
+
+//  get_next_line_utils.c
 size_t	ft_strlen(const char *str);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif
