@@ -6,7 +6,7 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:29:05 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/15 14:01:58 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/17 11:46:51 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ void	get_result(char **stash, char **result)
 	size_t	i;
 
 	nl = ft_strchr(*stash, '\n');
+	if (!nl)
+	{
+		(*result) = (*stash);
+		*stash = NULL;
+		return ;
+	}
 	i = 0;
 	while ((*stash + i) != (nl + 1))
 	{
@@ -61,21 +67,16 @@ void	get_result(char **stash, char **result)
 
 char	*get_next_line(int fd)
 {
-	static char	*stash = NULL;
+	static char	*stash[MAX_FILES_OPENED];
 	char		*result = NULL;
 	
-	while (!ft_strchr(stash, '\n') && read_buffer(fd, &stash) > 0);
-	if (ft_strlen(stash) == 0)
+	while (!ft_strchr(stash[fd], '\n') && read_buffer(fd, &(stash[fd])) > 0);
+	if (ft_strlen(stash[fd]) == 0)
 		return (NULL);
-	result = (char *)malloc(get_size(stash) * sizeof(char));
+	result = (char *)malloc(get_size(stash[fd]) * sizeof(char));
 	if (!result)
 		return (NULL);
-	get_result(&stash, &result);
-	if (*stash == 0)
-	{
-		free(stash);
-		stash = NULL;
-	}
+	get_result(&(stash[fd]), &result);
 	return (result);
 }
 
@@ -150,8 +151,8 @@ int	main(void)
 	fd2 = open(file2, 'r');
 	str = get_next_line(fd);
 	printf("result:	%s\n", str);
-	//str = get_next_line(fd2);
-	//printf("result:	%s\n", str);
+	str = get_next_line(fd2);
+	printf("result:	%s\n", str);
 	str = get_next_line(fd);
 	printf("result:	%s\n", str);
 	//read(fd, str, 30);
