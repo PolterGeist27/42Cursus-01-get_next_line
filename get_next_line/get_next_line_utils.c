@@ -6,11 +6,23 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:29:01 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/17 11:00:20 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/17 14:46:14 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		*((unsigned char *)s + i) = '\0';
+		i++;
+	}
+}
 
 size_t	ft_strlen(const char *str)
 {
@@ -62,4 +74,25 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	str[i] = '\0';
 	return (str);
+}
+
+char	*ft_strdup(const char *s)
+{
+	int		i;
+	int		j;
+	char	*dest;
+
+	i = ft_strlen(s) + 1;
+	j = 0;
+	dest = malloc(i * sizeof(char));
+	if (!dest)
+		return (0);
+	while (s[j] != '\0')
+	{
+		dest[j] = s[j];
+		j++;
+	}
+	dest[j] = '\0';
+	return (dest);
+	free(dest);
 }

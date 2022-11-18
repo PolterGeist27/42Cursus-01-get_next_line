@@ -6,7 +6,7 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:29:09 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/17 11:14:00 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/17 14:46:11 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@
 char	*get_next_line(int fd);
 
 //  get_next_line_utils.c
+void	ft_bzero(void *s, size_t n);
 size_t	ft_strlen(const char *str);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strdup(const char *s);
 
 #endif

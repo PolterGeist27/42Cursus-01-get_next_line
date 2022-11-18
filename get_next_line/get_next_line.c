@@ -6,7 +6,7 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:29:05 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/17 11:46:51 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:48:29 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,29 @@ int	read_buffer(int	fd, char **stash)
 	char	*tmp;
 	int		bytes;
 
+	ft_bzero(buffer, BUFFER_SIZE + 1);
 	bytes = read(fd, buffer, BUFFER_SIZE);
-	buffer[bytes] = '\0';
+	if (bytes == 0)
+		return (bytes);
 	tmp = ft_strjoin(*stash, buffer);
-	*stash = tmp;
+	free(*stash);
+	*stash = ft_strdup(tmp);
+	free(tmp);
 	return (bytes);
 }
 
 // function(s) that gets the str to return and removes it from the stash
 
-int	get_size(char *stash)
+int	get_size(char *stashfd)
 {
 	char	*nl;
-	size_t	index;
-	
-	nl = ft_strchr(stash, '\n');
-	index = ft_strlen(stash) - ft_strlen(nl) + 1;
-	return (index);
+	size_t	len;
+
+	nl = ft_strchr(stashfd, '\n');
+	if (!nl || nl == stashfd)
+		return (ft_strlen(stashfd));
+	len = ft_strlen(stashfd) - (ft_strlen(nl) + 1);
+	return (len);
 }
 
 void	get_result(char **stash, char **result)
@@ -46,9 +52,11 @@ void	get_result(char **stash, char **result)
 	size_t	i;
 
 	nl = ft_strchr(*stash, '\n');
-	if (!nl)
+	if (!nl || nl == *stash)
 	{
-		(*result) = (*stash);
+		free(*result);
+		*result = ft_strdup(*stash);
+		free(*stash);
 		*stash = NULL;
 		return ;
 	}
@@ -68,15 +76,19 @@ void	get_result(char **stash, char **result)
 char	*get_next_line(int fd)
 {
 	static char	*stash[MAX_FILES_OPENED];
-	char		*result = NULL;
+	char		*result;
 	
-	while (!ft_strchr(stash[fd], '\n') && read_buffer(fd, &(stash[fd])) > 0);
+	if (read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	result = NULL;
+	while (!ft_strchr(stash[fd], '\n') && read_buffer(fd, &(stash[fd])) > 0)
+		;
 	if (ft_strlen(stash[fd]) == 0)
 		return (NULL);
-	result = (char *)malloc(get_size(stash[fd]) * sizeof(char));
+	result = (char *)malloc((get_size(stash[fd]) + 1) * sizeof(char));
 	if (!result)
 		return (NULL);
-	get_result(&(stash[fd]), &result);
+	get_result((&stash[fd]), &result);
 	return (result);
 }
 
@@ -85,6 +97,18 @@ char	*get_next_line(int fd)
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		*((unsigned char *)s + i) = '\0';
+		i++;
+	}
+}
 
 size_t	ft_strlen(const char *str)
 {
@@ -138,6 +162,27 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
+char	*ft_strdup(const char *s)
+{
+	int		i;
+	int		j;
+	char	*dest;
+
+	i = ft_strlen(s) + 1;
+	j = 0;
+	dest = malloc(i * sizeof(char));
+	if (!dest)
+		return (0);
+	while (s[j] != '\0')
+	{
+		dest[j] = s[j];
+		j++;
+	}
+	dest[j] = '\0';
+	return (dest);
+	free(dest);
+}
+
 int	main(void)
 {
 	char	*str;
@@ -151,8 +196,8 @@ int	main(void)
 	fd2 = open(file2, 'r');
 	str = get_next_line(fd);
 	printf("result:	%s\n", str);
-	str = get_next_line(fd2);
-	printf("result:	%s\n", str);
+	//str = get_next_line(fd2);
+	//printf("result:	%s\n", str);
 	str = get_next_line(fd);
 	printf("result:	%s\n", str);
 	//read(fd, str, 30);
