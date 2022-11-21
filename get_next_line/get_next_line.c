@@ -6,11 +6,22 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:29:05 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/18 11:48:29 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/21 15:15:00 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*final;
+
+	final = malloc(nmemb * size);
+	if (!final)
+		return (NULL);
+	ft_bzero(final, nmemb * size);
+	return (final);
+}
 
 // function that reads the file, 
 // stores the str in the buffer and joins it to the stash
@@ -23,12 +34,11 @@ int	read_buffer(int	fd, char **stash)
 
 	ft_bzero(buffer, BUFFER_SIZE + 1);
 	bytes = read(fd, buffer, BUFFER_SIZE);
-	if (bytes == 0)
+	if (bytes <= 0)
 		return (bytes);
 	tmp = ft_strjoin(*stash, buffer);
 	free(*stash);
-	*stash = ft_strdup(tmp);
-	free(tmp);
+	*stash = tmp;
 	return (bytes);
 }
 
@@ -40,19 +50,20 @@ int	get_size(char *stashfd)
 	size_t	len;
 
 	nl = ft_strchr(stashfd, '\n');
-	if (!nl || nl == stashfd)
+	if (!nl || *(nl + 1) == '\0' || nl == stashfd)
 		return (ft_strlen(stashfd));
-	len = ft_strlen(stashfd) - (ft_strlen(nl) + 1);
+	len = ft_strlen(stashfd) - ft_strlen(nl);
 	return (len);
 }
 
 void	get_result(char **stash, char **result)
 {
 	char	*nl;
+	char	*tmp;
 	size_t	i;
 
 	nl = ft_strchr(*stash, '\n');
-	if (!nl || nl == *stash)
+	if (!nl || !(nl + 1) || nl == *stash)
 	{
 		free(*result);
 		*result = ft_strdup(*stash);
@@ -63,12 +74,13 @@ void	get_result(char **stash, char **result)
 	i = 0;
 	while ((*stash + i) != (nl + 1))
 	{
-		(*result)[i] = *(*stash + i);
+		(*result)[i] = (*stash)[i];
 		i++;
 	}
 	(*result)[i] = '\0';
+	tmp = ft_strdup((*stash + i));
 	free(*stash);
-	*stash = nl + 1;
+	*stash = tmp;
 }
 
 // get_next_line
@@ -81,14 +93,19 @@ char	*get_next_line(int fd)
 	if (read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	result = NULL;
-	while (!ft_strchr(stash[fd], '\n') && read_buffer(fd, &(stash[fd])) > 0)
+	while (ft_strchr(stash[fd], '\n') == NULL && read_buffer(fd, &(stash[fd])) > 0)
 		;
 	if (ft_strlen(stash[fd]) == 0)
 		return (NULL);
-	result = (char *)malloc((get_size(stash[fd]) + 1) * sizeof(char));
+	result = (char *)ft_calloc((get_size(stash[fd]) + 1), sizeof(char));
 	if (!result)
 		return (NULL);
-	get_result((&stash[fd]), &result);
+	get_result(&(stash[fd]), &result);
+	if (stash[fd] == 0)
+	{
+		free(stash[fd]);
+		stash[fd] = NULL;
+	}
 	return (result);
 }
 
@@ -180,7 +197,6 @@ char	*ft_strdup(const char *s)
 	}
 	dest[j] = '\0';
 	return (dest);
-	free(dest);
 }
 
 int	main(void)
@@ -196,10 +212,10 @@ int	main(void)
 	fd2 = open(file2, 'r');
 	str = get_next_line(fd);
 	printf("result:	%s\n", str);
-	//str = get_next_line(fd2);
-	//printf("result:	%s\n", str);
 	str = get_next_line(fd);
 	printf("result:	%s\n", str);
+	//str = get_next_line(fd2);
+	//printf("result:	%s\n", str);
 	//read(fd, str, 30);
 	//printf("result: %s\n", str);
 }

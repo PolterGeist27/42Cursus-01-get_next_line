@@ -6,7 +6,7 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:29:01 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/17 14:46:14 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/21 15:10:29 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,15 @@ char	*ft_strchr(const char *s, int c)
 {
 	if (s == NULL)
 		return (NULL);
-	while (*s)
+	while (*s != '\0')
 	{
 		if (*s == c)
 			return ((char *)s);
 		s++;
 	}
-	if (c == '\0')
+	if (*s == '\0' && c == '\0')
 		return ((char *)s);
-	return (0);
+	return (NULL);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -58,7 +58,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	i;
 
 	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	str = (char *)malloc(len * sizeof(char));
+	str = (char *)ft_calloc(len, sizeof(char));
 	if (!str)
 		return (NULL);
 	i = 0;
@@ -84,7 +84,7 @@ char	*ft_strdup(const char *s)
 
 	i = ft_strlen(s) + 1;
 	j = 0;
-	dest = malloc(i * sizeof(char));
+	dest = (char *)ft_calloc(i, sizeof(char));
 	if (!dest)
 		return (0);
 	while (s[j] != '\0')
@@ -94,5 +94,4 @@ char	*ft_strdup(const char *s)
 	}
 	dest[j] = '\0';
 	return (dest);
-	free(dest);
 }

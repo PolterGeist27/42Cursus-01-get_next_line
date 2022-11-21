@@ -6,7 +6,7 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:29:09 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/17 14:46:11 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:53:58 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@
 # include <unistd.h>
 
 # ifndef MAX_FILES_OPENED
-#  define MAX_FILES_OPENED 1024
+#  define MAX_FILES_OPENED 10024
 # endif
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 100
+#  define BUFFER_SIZE 42
 # endif
 
 //  get_next_line.c
 char	*get_next_line(int fd);
+void	*ft_calloc(size_t nmemb, size_t size);
 
 //  get_next_line_utils.c
 void	ft_bzero(void *s, size_t n);
