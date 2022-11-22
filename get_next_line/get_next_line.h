@@ -16,7 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-//	Value can be changed at compilation time
+//	Value can be changed at compile time
 //	by adding "-D BUFFER_SIZE=n" to the compiler call
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
