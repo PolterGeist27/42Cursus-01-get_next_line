@@ -6,7 +6,7 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:50:29 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/22 11:05:55 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/22 14:52:52 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #  define MAX_FILES_OPENED 65536
 # endif
 
+//	Value can be changed at compilation time
+//	by adding "-D BUFFER_SIZE=n" to the compiler call
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
