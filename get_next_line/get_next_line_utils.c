@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/11 12:29:01 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/21 15:10:29 by diogmart         ###   ########.fr       */
+/*   Created: 2022/11/22 09:50:31 by diogmart          #+#    #+#             */
+/*   Updated: 2022/11/22 10:33:05 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	i;
 
 	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	str = (char *)ft_calloc(len, sizeof(char));
+	str = (char *)malloc(len * sizeof(char));
 	if (!str)
 		return (NULL);
 	i = 0;
@@ -84,7 +84,7 @@ char	*ft_strdup(const char *s)
 
 	i = ft_strlen(s) + 1;
 	j = 0;
-	dest = (char *)ft_calloc(i, sizeof(char));
+	dest = (char *)malloc(i * sizeof(char));
 	if (!dest)
 		return (0);
 	while (s[j] != '\0')
