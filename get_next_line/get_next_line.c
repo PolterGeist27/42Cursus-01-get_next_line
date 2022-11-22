@@ -6,13 +6,13 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:50:33 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/22 11:04:38 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:08:13 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	read_buffer(int fd, char **stash)
+static int	read_buffer(int fd, char **stash)
 {
 	char	buffer[BUFFER_SIZE + 1];
 	char	*tmp;
@@ -28,7 +28,7 @@ int	read_buffer(int fd, char **stash)
 	return (bytes);
 }
 
-void	remove_result(char **stash)
+static void	remove_result(char **stash)
 {
 	char	*nl;
 	char	*tmp;
@@ -56,7 +56,7 @@ void	remove_result(char **stash)
 	*stash = tmp;
 }
 
-void	get_result(char **stash, char **result)
+static void	get_result(char **stash, char **result)
 {
 	char	*nl;
 	size_t	len;
