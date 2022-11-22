@@ -6,11 +6,14 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:50:33 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/22 14:07:37 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/22 14:50:12 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+// function that reads the file, 
+// stores the str in the buffer and joins it to the stash
 
 static int	read_buffer(int fd, char **stash, char *buffer)
 {
@@ -32,6 +35,9 @@ static int	read_buffer(int fd, char **stash, char *buffer)
 	*stash = tmp;
 	return (bytes);
 }
+
+//	Removes the string obtained in get_result()
+//	from the stash.
 
 static void	remove_result(char **stash)
 {
@@ -62,6 +68,8 @@ static void	remove_result(char **stash)
 	}
 }
 
+//	Takes the string to return from the stash
+
 static void	get_result(char **stash, char **result)
 {
 	char	*nl;
@@ -81,6 +89,13 @@ static void	get_result(char **stash, char **result)
 	}
 	(*result)[i] = '\0';
 }
+
+//******************************************************//
+//	 This time we needed to use a char pointer array	//
+//	 to store the progress of read() in multiple files	//
+//	 MAX_FILES_OPENED is the locked-in-memory size		//
+//	 obtained through the command "ulimit -a"			//
+//******************************************************//
 
 char	*get_next_line(int fd)
 {

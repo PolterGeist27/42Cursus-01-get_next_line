@@ -6,11 +6,14 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:50:33 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/22 14:05:29 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/22 14:50:18 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+// function that reads the file, 
+// stores the str in the buffer and joins it to the stash
 
 static int	read_buffer(int fd, char **stash, char *buffer)
 {
@@ -32,6 +35,9 @@ static int	read_buffer(int fd, char **stash, char *buffer)
 	*stash = tmp;
 	return (bytes);
 }
+
+//	Removes the string obtained in get_result()
+//	from the stash.
 
 static void	remove_result(char **stash)
 {
@@ -62,6 +68,8 @@ static void	remove_result(char **stash)
 	}
 }
 
+//	Takes the string to return from the stash
+
 static void	get_result(char **stash, char **result)
 {
 	char	*nl;
@@ -82,9 +90,11 @@ static void	get_result(char **stash, char **result)
 	(*result)[i] = '\0';
 }
 
+//		get_next_line()
+
 char	*get_next_line(int fd)
 {
-	static char	*stash[MAX_FILES_OPENED];
+	static char	*stash;
 	char		*result;
 	char		*buffer;
 	int			bytes;
@@ -93,15 +103,15 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	bytes = 1;
-	while (ft_strchr(stash[fd], '\n') == NULL
+	while (ft_strchr(stash, '\n') == NULL
 		&& bytes > 0)
-		bytes = read_buffer(fd, &(stash[fd]), buffer);
+		bytes = read_buffer(fd, &stash, buffer);
 	free(buffer);
 	if (bytes == -1)
 		return (NULL);
-	if (ft_strlen(stash[fd]) == 0)
+	if (ft_strlen(stash) == 0)
 		return (NULL);
-	get_result(&(stash[fd]), &result);
-	remove_result(&(stash[fd]));
+	get_result(&stash, &result);
+	remove_result(&stash);
 	return (result);
 }
