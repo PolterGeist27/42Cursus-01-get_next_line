@@ -6,11 +6,11 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:50:33 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/22 14:50:12 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/22 15:00:50 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 // function that reads the file, 
 // stores the str in the buffer and joins it to the stash
@@ -90,12 +90,10 @@ static void	get_result(char **stash, char **result)
 	(*result)[i] = '\0';
 }
 
-//******************************************************//
-//	 This time we needed to use a char pointer array	//
-//	 to store the progress of read() in multiple files	//
-//	 MAX_FILES_OPENED is the locked-in-memory size		//
-//	 obtained through the command "ulimit -a"			//
-//******************************************************//
+//	 This time we needed to use a char pointer array
+//	 to store the progress of read() in multiple files
+//	 MAX_FILES_OPENED is the locked-in-memory size
+//	 obtained through the command "ulimit -a"
 
 char	*get_next_line(int fd)
 {

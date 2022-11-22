@@ -6,7 +6,7 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:50:29 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/22 14:52:52 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/22 15:00:38 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-
-# ifndef MAX_FILES_OPENED
-#  define MAX_FILES_OPENED 65536
-# endif
 
 //	Value can be changed at compilation time
 //	by adding "-D BUFFER_SIZE=n" to the compiler call

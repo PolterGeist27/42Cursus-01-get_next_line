@@ -6,11 +6,14 @@
 /*   By: diogmart <diogmart@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:50:31 by diogmart          #+#    #+#             */
-/*   Updated: 2022/11/22 11:05:46 by diogmart         ###   ########.fr       */
+/*   Updated: 2022/11/22 14:59:41 by diogmart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+// fills 'n' bytes of a memory area 's'
+// with null characters.
 
 void	ft_bzero(void *s, size_t n)
 {
@@ -24,6 +27,8 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
+//	Calculates the lenght of a string 'str'
+
 size_t	ft_strlen(const char *str)
 {
 	size_t	i;
@@ -35,6 +40,10 @@ size_t	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
+
+//	Function that searches for a character 'c'
+//	in a string 's' and returns a pointer to
+//	that character
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -50,6 +59,9 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)s);
 	return (NULL);
 }
+
+//	Function that takes 2 strings, 's1' and 's2',
+//	and joins them together in a new string 'str'
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
